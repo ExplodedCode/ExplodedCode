@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://github.com/ExplodedCode/ExplodedCode/blob/main/public/logo512.png">
+<img src="https://github.com/ExplodedCode/ExplodedCode/blob/main/public/logo512.png" alt="ExplodedCodeLogo" width="100">
 </p>
 
 ---
