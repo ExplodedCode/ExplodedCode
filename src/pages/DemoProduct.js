@@ -11,112 +11,12 @@ const DemoProduct = (props) => {
 
     useDocTitle('Exploded Code - Demo our products')
 
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [email, setEmail] = useState('')
-    const [phone, setPhone] = useState('')
-    const [message, setMessage] = useState('')
-    const [demoProducts, setDemoProducts] = useState([])
-    const [errors, setErrors] = useState([])
-
-
-    const handleChange = (e) => {
-        const value = e.target.value
-        const checked = e.target.checked
-        errors.products = []
-        if (checked) {
-            setDemoProducts([
-                ...demoProducts, value
-            ])
-        } else {
-            setDemoProducts(demoProducts.filter((e) => (e !== value)))
-        }
-
-    }
-    const clearErrors = () => {
-        setErrors([])
-    }
-
-    const clearInput = () => {
-        setFirstName('')
-        setLastName('')
-        setEmail('')
-        setPhone('')
-        setMessage('')
-    }
-
-    function sendEmail(e) {
-        e.preventDefault();
-        document.getElementById('submitBtn').disabled = true;
-        document.getElementById('submitBtn').innerHTML = 'Loading...';
-        let fData = new FormData();
-        fData.append('first_name', firstName)
-        fData.append('last_name', lastName)
-        fData.append('email', email)
-        fData.append('phone_number', phone)
-        fData.append('message', message)
-        fData.append('products', demoProducts)
-
-        // emailjs.sendForm('service_7uy4ojg', 'template_et9wvdg', e.target, 'user_uE0bSPGbhRTmAF3I2fd3s')
-        //   .then((result) => {
-        //       console.log(result.text);
-        //       Notiflix.Report.success(
-        //         'Success',
-        //         '"Thanks for sending a message, we\'ll be in touch soon."',
-        //         'Okay',
-        //         );
-        //   }, (error) => {
-        //       console.log(error.text);
-        //       Notiflix.Report.failure(
-        //         'An error occured',
-        //         'Please try sending the message again.',
-        //         'Okay',
-        //         );
-        //   });
-
-        axios({
-            method: "post",
-            url: process.env.REACT_APP_DEMO_REQUEST_API,
-            data: fData,
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        })
-            .then(function (response) {
-                document.getElementById('submitBtn').disabled = false;
-                document.getElementById('submitBtn').innerHTML = 'send message';
-                clearInput()
-                //handle success
-                Notiflix.Report.success(
-                    'Success',
-                    response.data.message,
-                    'Okay',
-                );
-            })
-            .catch(function (error) {
-                document.getElementById('submitBtn').disabled = false;
-                document.getElementById('submitBtn').innerHTML = 'send message';
-                //handle error
-                const { response } = error;
-                if (response.status === 500) {
-                    Notiflix.Report.failure(
-                        'An error occurred',
-                        response.data.message,
-                        'Okay',
-                    );
-                }
-                if (response.data.errors !== null) {
-                    setErrors(response.data.errors)
-                }
-
-            });
-    }
     return (
         <>
             <div>
                 <NavBar />
             </div>
-            <div className="flex justify-center items-center mt-8 w-full bg-white py-12 lg:py-24 h-screen">
+            <div className="flex justify-center items-center mt-8 w-full bg-white py-12 lg:py-24 lg:h-screen md:h-screen">
                 <div className="container mx-auto my-8 px-4 lg:px-20" data-aos="zoom-in">
                     <div className="my-4 py-4" id='portfolio'>
                         <h2 className="my-2 text-center text-3xl text-blue-900 uppercase font-bold">Products</h2>

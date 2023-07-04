@@ -40,49 +40,47 @@ const Contact = () => {
         fData.append('phone_number', phone)
         fData.append('message', message)
 
-        axios({
-            method: "post",
-            url: process.env.REACT_APP_CONTACT_API,
-            data: fData,
+        fetch('/api/sendInvite?firstName=' + firstName + '&lastName=' + lastName + '&email=' + email + '&phone=' + phone + '&message=' + message, {
+            method: 'GET',
             headers: {
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'application/json',
+            },
+        }).then((response) => {
+            if (!response.ok) {
+                response.json().then((error) => {
+                    console.log(error);
+                    //setInviteEmail('');
+                    //setLoading(false);
+                    //setOpen(false);
+                    //setAlert({ open: true, message: 'Error sending invite', severity: 'error' });
+                    // if (response.status === 500) {
+                    //     Notiflix.Report.failure(
+                    //         'An error occurred',
+                    //         response.data.message,
+                    //         'Okay',
+                    //     );
+                    // }
+                    if (error !== null) {
+                        setErrors(error)
+                    }
+                });
+            } else {
+                return response.json().then(() => {
+                    //setLoading(false);
+                    //setOpen(false);
+                    //setAlert({ open: true, message: 'Invite Sent!', severity: 'success' });
+                    document.getElementById('submitBtn').disabled = false;
+                    document.getElementById('submitBtn').innerHTML = 'send message';
+                });
             }
-        })
-            .then(function (response) {
-                document.getElementById('submitBtn').disabled = false;
-                document.getElementById('submitBtn').innerHTML = 'send message';
-                clearInput()
-                //handle success
-                Notiflix.Report.success(
-                    'Success',
-                    response.data.message,
-                    'Okay',
-                );
-            })
-            .catch(function (error) {
-                document.getElementById('submitBtn').disabled = false;
-                document.getElementById('submitBtn').innerHTML = 'send message';
-                //handle error
-                const { response } = error;
-                if (response.status === 500) {
-                    Notiflix.Report.failure(
-                        'An error occurred',
-                        response.data.message,
-                        'Okay',
-                    );
-                }
-                if (response.data.errors !== null) {
-                    setErrors(response.data.errors)
-                }
-
-            });
+        });
     }
     return (
         <>
             <div>
                 <NavBar />
             </div>
-            <div className="flex justify-center items-center mt-8 w-full bg-white py-12 lg:py-24 bg-gray-200 h-screen">
+            <div className="flex justify-center items-center mt-8 w-full bg-white py-12 lg:py-24 bg-gray-200 lg:h-screen md:h-screen">
                 <div className="container mx-auto my-8 px-4 lg:px-20" data-aos="zoom-in">
 
                     <form onSubmit={sendEmail}>
