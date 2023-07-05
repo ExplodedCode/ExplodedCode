@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import NavBar from '../components/Navbar/NavBar';
 import Footer from '../components/Footer';
 import { useDocTitle } from '../components/CustomHook';
-import axios from 'axios';
-// import emailjs from 'emailjs-com';
-import Notiflix from 'notiflix';
 import { Link } from 'react-router-dom';
 
 
@@ -40,7 +37,7 @@ const Contact = () => {
         fData.append('phone_number', phone)
         fData.append('message', message)
 
-        fetch('/api/sendInvite?firstName=' + firstName + '&lastName=' + lastName + '&email=' + email + '&phone=' + phone + '&message=' + message, {
+        fetch('/api/sendContact?firstName=' + firstName + '&lastName=' + lastName + '&email=' + email + '&phone=' + phone + '&message=' + message, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -53,13 +50,8 @@ const Contact = () => {
                     //setLoading(false);
                     //setOpen(false);
                     //setAlert({ open: true, message: 'Error sending invite', severity: 'error' });
-                    // if (response.status === 500) {
-                    //     Notiflix.Report.failure(
-                    //         'An error occurred',
-                    //         response.data.message,
-                    //         'Okay',
-                    //     );
-                    // }
+                    document.getElementById('submitBtn').disabled = false;
+                    document.getElementById('submitBtn').innerHTML = 'send message';
                     if (error !== null) {
                         setErrors(error)
                     }

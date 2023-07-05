@@ -6,7 +6,7 @@ module.exports = function (e, db) {
 	var module = {};
 
 	//  /api/syncUsers/:location/:tenant/:group
-	module.sendInvite = async (request, response, next) => {
+	module.sendContact = async (request, response, next) => {
 		try {
 			var token = await graph.getToken();
 
@@ -19,8 +19,12 @@ module.exports = function (e, db) {
 
             var ecEmail = process.env.EC_INFO_EMAIL;
 
-			if (code.trim().length !== 12) {
-				response.status(500).send({ error: 'invalid code' });
+			if (email.trim().length == 0) {
+				response.status(500).send({ error: 'invalid email' });
+			}
+
+      if (message.trim().length == 0) {
+				response.status(500).send({ error: 'invalid message' });
 			}
 
 			if (name.trim().length === 0) {
@@ -152,7 +156,7 @@ module.exports = function (e, db) {
                                       <td align="left" style="padding:0;Margin:0;width:560px">
                                        <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                                          <tr>
-                                          <td align="center" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">Copyright</p></td>
+                                          <td align="center" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;color:#333333;font-size:14px">Copyright &copy; ${new Date().getFullYear()} Exploded Code - All rights reserved.</p></td>
                                          </tr>
                                        </table></td>
                                      </tr>
