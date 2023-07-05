@@ -27,6 +27,7 @@
     "dev": "concurrently \"nodemon app.js\" \"set PORT=3001 && react-scripts start\"",
     "start": "react-scripts start",
     "build": "concurrently \"node app.js\" \"react-scripts build\"",
+    "build-prod": "react-scripts build",
     "server": "node app.js",
     "server-dev": "nodemon app.js",
     "test": "react-scripts test",
